@@ -22,10 +22,10 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build Module
+        env:
+          TARGET_PACKAGE: ${{ github.event.inputs.package_name }}
         run: |
           chmod +x ./gradlew
-          sed -i "s/moduleDescription/moduleDescription - (${{ github.event.inputs.package_name }})/g" ./module/src/main/resources/module.prop
-          sed -i "s/com.game.packagename/${{ github.event.inputs.package_name }}/g" ./module/src/main/cpp/main.cpp
           ./gradlew :module:assembleRelease
 
       - name: Upload Artifact
